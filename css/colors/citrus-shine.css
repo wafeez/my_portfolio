@@ -1,0 +1,26 @@
+
+:root{
+    --primary-color: #fff;
+    --secondary-color : #fff95b;
+    --third-color : #ff930f;
+  }
+
+
+  .visiblo-btn-color{
+    background:linear-gradient(90deg, #fff95b 0%, #ff930f 100%);
+    box-shadow: var(--third-color) 0px 0px 15px 0px, rgba(255, 255, 255, 0.76) 0px 0px 4px 0px inset;
+    border-color: var(--secondary-color);
+    color: #000 !important;
+  }
+
+  .visiblo-btn-color span{
+    color: #000;
+  }
+
+  .visiblo-btn-arrow:hover::after, .icon-bar a.active, .sidebar a.active{
+    color: var(--secondary-color);
+  }
+
+  h1 span.color, h2 span.color,  h3 span.color{
+    background-image: linear-gradient(278deg,  var(--secondary-color) 0%, var(--third-color) 100%);
+  }
