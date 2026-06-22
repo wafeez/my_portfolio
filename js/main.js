@@ -130,12 +130,12 @@ $(document).ready(function() {
   $(window).on("scroll", function () {
     let scrollPos = $(window).scrollTop();
     let offset = 150;
-  
+
     $("section").each(function () {
       let top = $(this).offset().top - offset;
       let bottom = top + $(this).outerHeight();
       let id = $(this).attr("id");
-  
+
       if (scrollPos >= top && scrollPos < bottom) {
         $(".icon-bar a.active, .sidebar a.active").removeClass("active");
         $('.icon-bar a[href="#' + id + '"], .sidebar a[href="#' + id + '"]').addClass("active");
@@ -143,6 +143,88 @@ $(document).ready(function() {
       }
     });
   });
+
+
+  // CUSTOM CURSOR (desktop, fine-pointer only)
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    const dot = document.querySelector(".cursor-dot");
+    const ring = document.querySelector(".cursor-ring");
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+    document.addEventListener("mousemove", function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.transform = "translate(" + (mouseX - 3) + "px, " + (mouseY - 3) + "px)";
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+      ring.style.transform = "translate(" + (ringX - ring.offsetWidth / 2) + "px, " + (ringY - ring.offsetHeight / 2) + "px)";
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll("a, button, .skill-card, .lightbox, .accordion-header, .hamburger").forEach(function (el) {
+      el.addEventListener("mouseenter", function () { ring.classList.add("is-active"); });
+      el.addEventListener("mouseleave", function () { ring.classList.remove("is-active"); });
+    });
+
+    // MAGNETIC BUTTONS
+    document.querySelectorAll(".visiblo-btn-color, .visiblo-btn-arrow").forEach(function (btn) {
+      btn.addEventListener("mousemove", function (e) {
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
+        btn.style.transform = "translate(" + (x * 0.25) + "px, " + (y * 0.25) + "px)";
+      });
+      btn.addEventListener("mouseleave", function () { btn.style.transform = "translate(0, 0)"; });
+    });
+
+    // TILT ON HOVER
+    function applyTilt(selector, intensity) {
+      document.querySelectorAll(selector).forEach(function (card) {
+        card.addEventListener("mousemove", function (e) {
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = "perspective(600px) rotateY(" + (x * intensity) + "deg) rotateX(" + (-y * intensity) + "deg)";
+        });
+        card.addEventListener("mouseleave", function () { card.style.transform = "perspective(600px) rotateY(0deg) rotateX(0deg)"; });
+      });
+    }
+    applyTilt(".skill-card", 12);
+    applyTilt(".project .lightbox", 6);
+  }
+
+
+  // STAT COUNT-UP
+  function countUp(el) {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || "";
+    const duration = 1500;
+    const start = performance.now();
+
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent = Math.floor(progress * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  if ("IntersectionObserver" in window) {
+    const statObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          countUp(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll(".stat-number").forEach(function (el) { statObserver.observe(el); });
+  }
 
 });
 

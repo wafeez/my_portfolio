@@ -55,6 +55,12 @@ a{
     overflow: hidden;
     background: #ffffff0a;
     padding: 0;
+    box-shadow: 0 0 40px -10px rgba(157, 0, 255, 0.35);
+    transition: box-shadow .4s ease;
+}
+
+.profile-box:hover{
+    box-shadow: 0 0 55px -8px rgba(157, 0, 255, 0.55);
 }
 
 .profile-box-inner{
@@ -136,15 +142,51 @@ a{
 }
 
 
-.profile-image img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.profile-image{
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
     border-radius: 15px;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
+}
+
+.profile-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 12%;
+    transform: scale(1.35);
+    filter: contrast(1.05) saturate(1.02) brightness(1.02);
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+
+.profile-image::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(10, 0, 20, 0.45) 100%),
+      radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(20, 0, 40, 0.3) 100%),
+      linear-gradient(135deg, rgba(157, 0, 255, 0.08), rgba(59, 10, 107, 0.16));
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}
+
+.profile-image::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+    z-index: 2;
+    pointer-events: none;
 }
 
 
@@ -154,7 +196,7 @@ a{
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
-	z-index: -1; 
+	z-index: -1;
     opacity: 1;
  }
 
@@ -166,6 +208,18 @@ a{
 	width: 100vw;
 	height: 100vh;
 	object-fit: cover;
+	transform-origin: 50% 50%;
+	will-change: transform;
+	animation: bgSpin 90s linear infinite;
+  }
+
+  @keyframes bgSpin{
+	from { transform: scale(1.6) rotate(0deg); }
+	to   { transform: scale(1.6) rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+	.video-wrapper video{ animation: none; }
   }
 
   .video-wrapper:before {
@@ -175,12 +229,14 @@ a{
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.3);
+	background:
+	  radial-gradient(circle at 50% 50%, rgba(60, 0, 110, 0.15), rgba(0, 0, 0, 0.55) 70%),
+	  rgba(0, 0, 0, 0.25);
 	z-index: 1;
   }
 
 
-  
+
   /* 1. No object-fit support: */
   @media (min-aspect-ratio: 16/9) {
 	.video-wrapper > video { height: 300%; top: -100%; }
@@ -511,7 +567,9 @@ p.xl{
 
 .eyebrow-badge{
   background: #000;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 5px 20px;
   border-radius: 50px;
   background: #ffffff14;
@@ -523,6 +581,16 @@ p.xl{
   overflow: hidden;
   position: relative;
   border: solid 1px #ffffff13;
+}
+
+.eyebrow-badge::after{
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--secondary-color, #9d00ff);
+  box-shadow: 0 0 8px var(--secondary-color, #9d00ff);
+  flex-shrink: 0;
 }
 
 
@@ -583,6 +651,11 @@ p.xl{
     display: flex;
     flex-direction: row;
     gap: 24px;
+    flex-wrap: wrap;
+}
+
+.visiblo-btn-color span, .visiblo-btn-arrow span{
+  white-space: nowrap;
 }
 
 section{
@@ -742,7 +815,6 @@ section{
 .icon-bar a:hover > span{
    visibility: visible;
 }
-
 
 
 /* ==========================================================================
@@ -1021,6 +1093,12 @@ section{
   -o-border-radius: 10px;
   outline: none;
   width: 100%;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus{
+  border-color: var(--secondary-color, #9d00ff);
+  box-shadow: 0 0 18px -2px var(--third-color, #3b0a6b);
 }
 
 
@@ -1091,6 +1169,128 @@ select:focus-visible {
 /* ==========================================================================
 09 - RESPONSIVE
 =========================================================================== */
+
+/* ==========================================================================
+10 - INTERACTIVE / EXCLUSIVE ENHANCEMENTS
+=========================================================================== */
+
+.cursor-dot, .cursor-ring{
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 9999;
+}
+
+.cursor-dot{
+  width: 6px;
+  height: 6px;
+  background: #fff;
+}
+
+.cursor-ring{
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  transition: width .25s ease, height .25s ease, border-color .25s ease, background-color .25s ease;
+}
+
+.cursor-ring.is-active{
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+@media (hover: none), (pointer: coarse){
+  .cursor-dot, .cursor-ring{ display: none; }
+}
+
+@media (hover: hover) and (pointer: fine){
+  body, a, button{ cursor: none; }
+}
+
+.marquee-strip{
+  overflow: hidden;
+  border-top: 1px solid #ffffff1f;
+  border-bottom: 1px solid #ffffff1f;
+  padding: 14px 0;
+}
+
+.marquee-track{
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  white-space: nowrap;
+  animation: marquee 22s linear infinite;
+}
+
+.marquee-track span{
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+@keyframes marquee{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{ animation: none; }
+}
+
+.about-stats{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stat-item{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-number{
+  font-size: 48px;
+  font-weight: 600;
+  color: #fff;
+  display: block;
+  background-image: linear-gradient(135deg, #fff 0%, #b65bff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label{
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.skill-icon i{
+  font-size: 56px;
+  line-height: 90px;
+  color: #fff;
+}
+
+.skill-card, .project .lightbox{
+  transition: transform .15s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.project .lightbox img{
+  transition: transform .4s ease;
+}
+
+.project .lightbox:hover img{
+  transform: scale(1.05);
+}
+
+.visiblo-btn-color, .visiblo-btn-arrow{
+  transition: transform .2s ease, all ease .3s;
+}
+
 
 @media screen and (max-width:991px) {
   .profile-box-wrap{
