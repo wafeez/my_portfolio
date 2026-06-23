@@ -37,7 +37,8 @@ a{
 .profile-box-wrap{
   padding-right: 15px;
   position: fixed;
-  top: 70%;
+  top: 50%;
+  max-width: 280px;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
@@ -1296,6 +1297,7 @@ select:focus-visible {
     position: relative;
     padding: 0;
     top: 0;
+    max-width: none;
     transform: translateY(0);
     -webkit-transform: translateY(0);
     -moz-transform: translateY(0);
