@@ -149,21 +149,13 @@ $(document).ready(function() {
   if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
     const dot = document.querySelector(".cursor-dot");
     const ring = document.querySelector(".cursor-ring");
-    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
 
     document.addEventListener("mousemove", function (e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
       dot.style.transform = "translate(" + (mouseX - 3) + "px, " + (mouseY - 3) + "px)";
+      ring.style.transform = "translate(" + (mouseX - ring.offsetWidth / 2) + "px, " + (mouseY - ring.offsetHeight / 2) + "px)";
     });
-
-    function animateRing() {
-      ringX += (mouseX - ringX) * 0.15;
-      ringY += (mouseY - ringY) * 0.15;
-      ring.style.transform = "translate(" + (ringX - ring.offsetWidth / 2) + "px, " + (ringY - ring.offsetHeight / 2) + "px)";
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
 
     document.querySelectorAll("a, button, .skill-card, .lightbox, .accordion-header, .hamburger").forEach(function (el) {
       el.addEventListener("mouseenter", function () { ring.classList.add("is-active"); });
