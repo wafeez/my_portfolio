@@ -38,7 +38,7 @@ a{
   padding-right: 15px;
   position: fixed;
   top: 50%;
-  max-width: 280px;
+  max-width: 300px;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
