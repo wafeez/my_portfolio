@@ -1193,23 +1193,24 @@ select:focus-visible {
 }
 
 .cursor-dot{
-  width: 6px;
-  height: 6px;
-  background: #fff;
+  width: 5px;
+  height: 5px;
+  background: #9d00ff;
+  box-shadow: 0 0 8px rgba(157, 0, 255, 0.7);
 }
 
 .cursor-ring{
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(157, 0, 255, 0.35);
   transition: width .25s ease, height .25s ease, border-color .25s ease, background-color .25s ease;
 }
 
 .cursor-ring.is-active{
-  width: 64px;
-  height: 64px;
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.8);
+  width: 44px;
+  height: 44px;
+  background: rgba(157, 0, 255, 0.08);
+  border-color: rgba(157, 0, 255, 0.6);
 }
 
 @media (hover: none), (pointer: coarse){
