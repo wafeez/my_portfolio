@@ -167,6 +167,15 @@ a{
     -o-border-radius: 15px;
 }
 
+/* Desktop: keep the fixed, vertically-centred profile box within the
+   viewport height so its top is never clipped under the browser chrome. */
+@media screen and (min-width: 992px) {
+  .profile-image{
+    aspect-ratio: auto;
+    height: 38vh;
+  }
+}
+
 .profile-image::after{
     content: '';
     position: absolute;
