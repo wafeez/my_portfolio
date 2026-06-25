@@ -37,16 +37,16 @@ a{
 .profile-box-wrap{
   padding-right: 15px;
   position: fixed;
-  top: 50%;
+  top: 0;
+  bottom: 0;
   max-width: 300px;
-  transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
+  display: flex;
+  align-items: safe center;
+  overflow-y: auto;
 }
 
 .profile-box{
+    width: 100%;
     border-radius: 40px;
     border: 1px solid rgba(255, 255, 255, 0.17);
     -webkit-border-radius: 40px;
@@ -1306,7 +1306,10 @@ select:focus-visible {
     position: relative;
     padding: 0;
     top: 0;
+    bottom: auto;
     max-width: none;
+    display: block;
+    overflow-y: visible;
     transform: translateY(0);
     -webkit-transform: translateY(0);
     -moz-transform: translateY(0);
